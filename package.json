@@ -1,0 +1,11 @@
+{
+  "name": "@addonbone/reg-cs-plugin",
+  "version": "0.0.1",
+  "description": "Register Content Scripts plugin for Addon Bone",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:addonbone/reg-cs-plugin.git"
+  },
+  "license": "MIT",
+  "author": "Addon Bone"
+}
