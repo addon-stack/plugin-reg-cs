@@ -1,0 +1,15 @@
+{
+  "name": "reg-cs-plugin",
+  "version": "0.0.1",
+  "description": "Plugin for applying all content scripts after install extension",
+  "author": "AddonBone",
+  "license": "MIT",
+  "main": "index.ts",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "adnbn": "^0.0.51"
+  }
+}
