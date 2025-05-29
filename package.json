@@ -1,13 +1,16 @@
 {
-  "name": "reg-cs-plugin",
+  "name": "@addonbone/reg-cs-plugin",
   "version": "0.0.1",
-  "description": "Plugin for applying all content scripts after install extension",
-  "author": "AddonBone",
+  "description": "Register Content Scripts plugin for Addon Bone",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:addonbone/reg-cs-plugin.git"
+  },
   "license": "MIT",
-  "main": "index.ts",
-  "type": "module",
+  "author": "Addon Bone",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./plugin/index.ts",
+    "./background": "./plugin/background.ts"
   },
   "dependencies": {
     "adnbn": "^0.0.51"
