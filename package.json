@@ -2,6 +2,18 @@
   "name": "@addonbone/reg-cs-plugin",
   "version": "0.1.0",
   "description": "Register Content Scripts plugin for Addon Bone",
+  "keywords": [
+    "adnbn",
+    "browser",
+    "chrome",
+    "opera",
+    "firefox",
+    "safari",
+    "edge",
+    "extension",
+    "content scripts",
+    "manifest"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:addonbone/reg-cs-plugin.git"
