@@ -1,11 +1,21 @@
 {
   "name": "@addonbone/reg-cs-plugin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Register Content Scripts plugin for Addon Bone",
   "repository": {
     "type": "git",
     "url": "git@github.com:addonbone/reg-cs-plugin.git"
   },
   "license": "MIT",
-  "author": "Addon Bone"
+  "author": "Addon Bone",
+  "files": [
+    "plugin"
+  ],
+  "exports": {
+    ".": "./plugin/index.ts",
+    "./background": "./plugin/background.ts"
+  },
+  "dependencies": {
+    "adnbn": "^0.0.51"
+  }
 }
