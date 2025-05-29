@@ -1,13 +1,18 @@
 {
-  "extends": "./.adnbn/tsconfig.json",
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "strict": true,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
-  }
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "**/*.test.ts"
+  ]
 }
