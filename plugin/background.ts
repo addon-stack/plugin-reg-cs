@@ -1,17 +1,14 @@
-import {defineBackground} from 'adnbn'
-import {executeScript, getManifest, insertScriptingCSS, queryTabs} from 'adnbn/browser'
+import {defineBackground} from "adnbn";
+import {executeScript, getManifest, insertScriptingCSS, queryTabs} from "adnbn/browser";
 
-type ContentScript = NonNullable<chrome.runtime.Manifest['content_scripts']>[number] & {
-    world?: chrome.scripting.ExecutionWorld
+type ContentScript = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number] & {
+    world?: chrome.scripting.ExecutionWorld;
 };
 
 export default defineBackground({
-    permissions: [
-        'tabs',
-        'scripting',
-    ],
+    permissions: ["tabs", "scripting"],
     main: async () => {
-        const contents = getManifest().content_scripts as ContentScript[] | undefined
+        const contents = getManifest().content_scripts as ContentScript[] | undefined;
 
         if (!contents?.length) return;
 
@@ -20,7 +17,7 @@ export default defineBackground({
 
             const scriptPromises = tabs
                 .filter(tab => tab.id !== undefined)
-                .map(async (tab) => {
+                .map(async tab => {
                     const target = {tabId: tab.id!, allFrames: content.all_frames};
 
                     const promises = [];
@@ -30,10 +27,8 @@ export default defineBackground({
                             executeScript({
                                 target,
                                 files: content.js,
-                                world: content.world
-                            }).catch(err =>
-                                console.error(`ExecuteScript error on tab "${tab.title}":`, err)
-                            )
+                                world: content.world,
+                            }).catch(err => console.error(`ExecuteScript error on tab "${tab.title}":`, err))
                         );
                     }
 
@@ -41,10 +36,8 @@ export default defineBackground({
                         promises.push(
                             insertScriptingCSS({
                                 target,
-                                files: content.css
-                            }).catch(err =>
-                                console.error(`InsertCSS error on tab "${tab.title}":`, err)
-                            )
+                                files: content.css,
+                            }).catch(err => console.error(`InsertCSS error on tab "${tab.title}":`, err))
                         );
                     }
 
@@ -55,5 +48,5 @@ export default defineBackground({
         };
 
         await Promise.allSettled(contents.map(executeContentScript));
-    }
-})
+    },
+});

@@ -1,13 +1,22 @@
-# @addonbone/reg-cs-plugin
+# @adnbn/reg-cs-plugin
+
+[![npm version](https://img.shields.io/npm/v/@adnbn/reg-cs-plugin.svg)](https://www.npmjs.com/package/@adnbn/reg-cs-plugin)
+[![npm downloads](https://img.shields.io/npm/dm/@adnbn/reg-cs-plugin.svg)](https://www.npmjs.com/package/@adnbn/reg-cs-plugin)
 
 Register Content Scripts plugin for Addon Bone. Automatically injects JS and CSS assets declared under `content_scripts` in your extension manifest.
 
 ## Installation
 
+Using npm:
+
 ```bash
-npm install @addonbone/reg-cs-plugin
-# or
-yarn add @addonbone/reg-cs-plugin
+npm install @adnbn/reg-cs-plugin
+```
+
+Using Yarn:
+
+```bash
+yarn add @adnbn/reg-cs-plugin
 ```
 
 ## Usage
@@ -15,12 +24,12 @@ yarn add @addonbone/reg-cs-plugin
 In your `adnbn.config.ts`:
 
 ```ts
-import {defineConfig} from 'adnbn';
-import registerContentScriptPlugin from '@addonbone/reg-cs-plugin';
+import {defineConfig} from "adnbn";
+import registerContentScriptPlugin from "@adnbn/reg-cs-plugin";
 
 export default defineConfig({
-  plugins: [registerContentScriptPlugin()],
-  // other Addon Bone settings...
+    plugins: [registerContentScriptPlugin()],
+    // other Addon Bone settings...
 });
 ```
 
@@ -28,18 +37,17 @@ export default defineConfig({
 
 ```json
 {
-  "content_scripts": [
-    {
-      "matches": ["https://example.com/*"],
-      "js": ["content-script.js"],
-      "css": ["styles.css"],
-      "all_frames": false
-    }
-  ]
+    "content_scripts": [
+        {
+            "matches": ["https://example.com/*"],
+            "js": ["content-script.js"],
+            "css": ["styles.css"],
+            "all_frames": false
+        }
+    ]
 }
 ```
 
 ## License
 
 MIT © Addon Bone
-

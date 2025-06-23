@@ -1,6 +1,6 @@
 {
-  "name": "@addonbone/reg-cs-plugin",
-  "version": "0.1.0",
+  "name": "@adnbn/reg-cs-plugin",
+  "version": "0.0.1",
   "description": "Register Content Scripts plugin for Addon Bone",
   "keywords": [
     "adnbn",
@@ -27,7 +27,13 @@
     ".": "./plugin/index.ts",
     "./background": "./plugin/background.ts"
   },
+  "scripts": {
+    "format": "prettier --write ."
+  },
   "dependencies": {
     "adnbn": "^0.0.51"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
   }
 }
