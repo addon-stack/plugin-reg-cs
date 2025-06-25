@@ -1,50 +1,56 @@
-import {defineBackground} from 'adnbn'
-import {executeScript, getManifest, insertScriptingCSS, queryTabs} from 'adnbn/browser'
+import {defineBackground} from "adnbn";
+import {getManifest, queryTabs} from "adnbn/browser";
+import injectCssFactory from "@adnbn/inject-css";
+import injectScriptFactory from "@adnbn/inject-script";
 
-type ContentScript = NonNullable<chrome.runtime.Manifest['content_scripts']>[number] & {
-    world?: chrome.scripting.ExecutionWorld
+type ContentScript = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number] & {
+    world?: chrome.scripting.ExecutionWorld;
 };
 
 export default defineBackground({
-    permissions: [
-        'tabs',
-        'scripting',
-    ],
+    permissions: ["tabs", "scripting"],
     main: async () => {
-        const contents = getManifest().content_scripts as ContentScript[] | undefined
+        const contents = getManifest().content_scripts as ContentScript[] | undefined;
 
         if (!contents?.length) return;
 
         const executeContentScript = async (content: ContentScript) => {
-            const tabs = await queryTabs({url: content.matches});
+            const {world, matches, run_at: runAt, all_frames: frameId, match_about_blank: matchAboutBlank} = content;
+
+            const tabs = await queryTabs({url: matches});
 
             const scriptPromises = tabs
                 .filter(tab => tab.id !== undefined)
-                .map(async (tab) => {
-                    const target = {tabId: tab.id!, allFrames: content.all_frames};
+                .map(async tab => {
+                    const injectScript = injectScriptFactory({
+                        tabId: tab.id!,
+                        frameId,
+                        matchAboutBlank,
+                        world,
+                    });
+
+                    const injectCss = injectCssFactory({
+                        tabId: tab.id!,
+                        frameId,
+                        matchAboutBlank,
+                        runAt,
+                    });
 
                     const promises = [];
 
                     if (content.js?.length) {
                         promises.push(
-                            executeScript({
-                                target,
-                                files: content.js,
-                                world: content.world
-                            }).catch(err =>
-                                console.error(`ExecuteScript error on tab "${tab.title}":`, err)
-                            )
+                            injectScript
+                                .file(content.js)
+                                .catch(err => console.error(`ExecuteScript error on tab "${tab.title}":`, err))
                         );
                     }
 
                     if (content.css?.length) {
                         promises.push(
-                            insertScriptingCSS({
-                                target,
-                                files: content.css
-                            }).catch(err =>
-                                console.error(`InsertCSS error on tab "${tab.title}":`, err)
-                            )
+                            injectCss
+                                .file(content.css)
+                                .catch(err => console.error(`InsertCSS error on tab "${tab.title}":`, err))
                         );
                     }
 
@@ -55,5 +61,5 @@ export default defineBackground({
         };
 
         await Promise.allSettled(contents.map(executeContentScript));
-    }
-})
+    },
+});
