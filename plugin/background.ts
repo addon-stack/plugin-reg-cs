@@ -33,6 +33,7 @@ export default defineBackground({
                         tabId: tab.id!,
                         frameId,
                         matchAboutBlank,
+                        runAt,
                         world
                     });
 
