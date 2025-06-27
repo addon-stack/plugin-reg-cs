@@ -26,12 +26,8 @@ export default defineBackground({
                         tabId: tab.id!,
                         frameId,
                         matchAboutBlank,
-<<<<<<< develop
                         runAt,
-                        world
-=======
                         world,
->>>>>>> develop
                     });
 
                     const injectCss = injectCssFactory({
