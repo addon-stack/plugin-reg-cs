@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@adnbn/inject-css": "^0.1.0",
-    "@adnbn/inject-script": "^0.1.1",
+    "@adnbn/inject-script": "^0.2.0",
     "adnbn": "^0.0.51"
   },
   "devDependencies": {
