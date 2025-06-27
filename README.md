@@ -3,7 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/@adnbn/reg-cs-plugin.svg)](https://www.npmjs.com/package/@adnbn/reg-cs-plugin)
 [![npm downloads](https://img.shields.io/npm/dm/@adnbn/reg-cs-plugin.svg)](https://www.npmjs.com/package/@adnbn/reg-cs-plugin)
 
-Register Content Scripts plugin for Addon Bone. Automatically injects JS and CSS assets declared under `content_scripts` in your extension manifest.
+Register Content Scripts plugin for [Addon Bone](https://github.com/addonbone).
+Automatically injects JS and CSS assets declared under `content_scripts` in your extension manifest.
 
 ## Installation
 
