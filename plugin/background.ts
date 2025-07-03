@@ -1,5 +1,5 @@
 import {defineBackground} from "adnbn";
-import {getManifest, queryTabs} from "adnbn/browser";
+import {getManifest, queryTabs} from "@adnbn/browser";
 import injectCssFactory from "@adnbn/inject-css";
 import injectScriptFactory from "@adnbn/inject-script";
 
