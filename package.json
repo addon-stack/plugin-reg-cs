@@ -1,6 +1,6 @@
 {
   "name": "@adnbn/reg-cs-plugin",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Register Content Scripts plugin for Addon Bone",
   "keywords": [
     "adnbn",
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@adnbn/inject-css": "^0.2.0",
-    "@adnbn/inject-script": "^0.2.0",
+    "@adnbn/inject-script": "^0.2.1",
     "adnbn": "^0.2.1"
   },
   "devDependencies": {
