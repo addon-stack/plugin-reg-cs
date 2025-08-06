@@ -1,7 +1,7 @@
 {
-  "name": "@adnbn/reg-cs-plugin",
-  "version": "0.2.3",
-  "description": "Register Content Scripts plugin for Addon Bone",
+  "name": "@adnbn/plugin-reg-cs",
+  "version": "0.3.0",
+  "description": "A plugin for Addon Bone that automatically registers and injects content scripts when your browser extension is installed",
   "keywords": [
     "adnbn",
     "browser",
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:addonbone/reg-cs-plugin.git"
+    "url": "git@github.com:addonbone/plugin-reg-cs.git"
   },
   "license": "MIT",
   "author": "Addon Bone",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@adnbn/inject-css": "^0.2.0",
     "@adnbn/inject-script": "^0.2.1",
-    "adnbn": "^0.2.1"
+    "adnbn": "^0.2.4"
   },
   "devDependencies": {
     "prettier": "^3.5.3"

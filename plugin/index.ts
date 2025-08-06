@@ -1,6 +1,6 @@
 import {definePlugin} from "adnbn";
 
 export default definePlugin(() => ({
-    name: "@adnbn/reg-cs-plugin",
+    name: "@adnbn/plugin-reg-cs",
     background: true,
 }));
