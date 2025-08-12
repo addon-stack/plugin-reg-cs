@@ -1,5 +1,6 @@
 {
   "name": "@adnbn/plugin-reg-cs",
+  "type": "module",
   "version": "0.3.0",
   "description": "A plugin for Addon Bone that automatically registers and injects content scripts when your browser extension is installed",
   "keywords": [
@@ -32,10 +33,13 @@
   },
   "dependencies": {
     "@adnbn/inject-css": "^0.2.0",
-    "@adnbn/inject-script": "^0.2.1",
-    "adnbn": "^0.2.4"
+    "@adnbn/inject-script": "^0.2.2"
   },
   "devDependencies": {
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "adnbn": "^0.2.6"
+  },
+  "peerDependencies": {
+    "adnbn": ">=0.2.3"
   }
 }
