@@ -1,7 +1,8 @@
 import {defineBackground} from "adnbn";
-import {getManifest, onInstalled, queryTabs} from "@adnbn/browser";
-import injectCssFactory from "@adnbn/inject-css";
-import injectScriptFactory from "@adnbn/inject-script";
+import {getManifest, onInstalled, queryTabs} from "adnbn/browser";
+
+import injectCssFactory from "@addon-core/inject-css";
+import injectScriptFactory from "@addon-core/inject-script";
 
 type ContentScript = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number] & {
     world?: chrome.scripting.ExecutionWorld;
