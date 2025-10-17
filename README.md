@@ -1,9 +1,11 @@
 # @adnbn/plugin-reg-cs
 
-[![npm version](https://img.shields.io/npm/v/@adnbn/plugin-reg-cs.svg)](https://www.npmjs.com/package/@adnbn/plugin-reg-cs)
+[![npm version](https://img.shields.io/npm/v/@adnbn/plugin-reg-cs.svg?logo=npm)](https://www.npmjs.com/package/@adnbn/plugin-reg-cs)
 [![npm downloads](https://img.shields.io/npm/dm/@adnbn/plugin-reg-cs.svg)](https://www.npmjs.com/package/@adnbn/plugin-reg-cs)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+[![CI](https://github.com/addon-stack/plugin-reg-cs/actions/workflows/ci.yml/badge.svg)](https://github.com/addon-stack/plugin-reg-cs/actions/workflows/ci.yml)
 
-A plugin for [Addon Bone](https://github.com/addonbone) that automatically registers and injects content scripts when your browser extension is installed.
+A plugin for [Addon Bone](https://addonbone.com) that automatically registers and injects content scripts when your browser extension is installed.
 
 ## Key Features
 
@@ -72,8 +74,3 @@ export default defineConfig({
 If your content scripts aren't being injected:
 
 - Make sure you have included the necessary URL patterns in `host_permissions` in your manifest, otherwise the API won't have access to those tabs
-
-
-## License
-
-MIT © Addon Bone

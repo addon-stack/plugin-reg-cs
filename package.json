@@ -1,6 +1,5 @@
 {
   "name": "@adnbn/plugin-reg-cs",
-  "type": "module",
   "version": "0.3.1",
   "description": "A plugin for Addon Bone that automatically registers and injects content scripts when your browser extension is installed",
   "keywords": [
@@ -17,29 +16,72 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:addonbone/plugin-reg-cs.git"
+    "url": "https://github.com/addon-stack/plugin-reg-cs"
+  },
+  "homepage": "https://github.com/addon-stack/plugin-reg-cs",
+  "bugs": {
+    "url": "https://github.com/addon-stack/plugin-reg-cs/issues"
   },
   "license": "MIT",
-  "author": "Addon Bone",
-  "files": [
-    "plugin"
+  "author": "Addon Stack <addonbonedev@gmail.com>",
+  "contributors": [
+    "Anjey Tsibylskij (https://github.com/atldays)"
   ],
+  "type": "module",
+  "files": [
+    "plugin",
+    "dist-types"
+  ],
+  "types": "./dist-types/index.d.ts",
   "exports": {
-    ".": "./plugin/index.ts",
-    "./background": "./plugin/background.ts"
+    ".": {
+      "types": "./dist-types/index.d.ts",
+      "default": "./plugin/index.ts"
+    },
+    "./background": {
+      "types": "./dist-types/background.d.ts",
+      "default": "./plugin/background.ts"
+    }
   },
   "scripts": {
-    "format": "prettier --write ."
+    "prepare": "husky",
+    "build:types": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build:types",
+    "format": "biome format --write .",
+    "format:check": "biome check --formatter-enabled=true --linter-enabled=false .",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "lint:fix:aggressive": "biome check --write --unsafe .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest --bail --passWithNoTests",
+    "test:ci": "jest --ci --passWithNoTests --coverage",
+    "release": "release-it"
   },
   "dependencies": {
-    "@adnbn/inject-css": "^0.2.0",
-    "@adnbn/inject-script": "^0.2.2"
+    "@addon-core/inject-css": "^0.3.0",
+    "@addon-core/inject-script": "^0.3.0"
   },
   "devDependencies": {
-    "prettier": "^3.5.3",
-    "adnbn": "^0.2.6"
+    "@biomejs/biome": "^2.2.4",
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@release-it/conventional-changelog": "^10.0.1",
+    "@types/is-url": "^1.2.32",
+    "@types/react": "^19.0",
+    "@types/react-dom": "^19.0",
+    "@types/chrome": "^0.1.12",
+    "@types/jest": "^30.0.0",
+    "adnbn": "^0.4.2",
+    "husky": "^9.1.7",
+    "jest": "^30.1.3",
+    "release-it": "^19.0.5",
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
-    "adnbn": ">=0.2.3"
+    "adnbn": ">=0.4.0"
+  },
+  "overrides": {
+    "glob": "^9.3.5",
+    "source-map": "npm:source-map-js@^1.2.0"
   }
 }

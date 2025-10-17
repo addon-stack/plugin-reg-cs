@@ -9,10 +9,12 @@ lerna-debug.log*
 
 node_modules
 dist
+dist-types
 addon
 .adnbn
 dist-ssr
 *.local
+coverage
 
 # Editor directories and files
 .vscode/*

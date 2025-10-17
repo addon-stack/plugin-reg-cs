@@ -1,10 +1,19 @@
+import injectCssFactory from "@addon-core/inject-css";
+import injectScriptFactory from "@addon-core/inject-script";
 import {defineBackground} from "adnbn";
-import {getManifest, onInstalled, queryTabs} from "@adnbn/browser";
-import injectCssFactory from "@adnbn/inject-css";
-import injectScriptFactory from "@adnbn/inject-script";
+import {getManifest, onInstalled, queryTabs} from "adnbn/browser";
 
-type ContentScript = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number] & {
+type Tab = chrome.tabs.Tab;
+
+type ManifestContent = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number];
+
+type ContentScript = Omit<ManifestContent, "run_at" | "world"> & {
+    run_at?: chrome.extensionTypes.RunAt;
     world?: chrome.scripting.ExecutionWorld;
+};
+
+const isInjectableTab = (tab: Tab): tab is Tab & {id: number} => {
+    return tab.id !== undefined && !tab.frozen && !tab.discarded;
 };
 
 const register = async (): Promise<void> => {
@@ -17,44 +26,42 @@ const register = async (): Promise<void> => {
 
         const tabs = await queryTabs({url: matches});
 
-        const scriptPromises = tabs
-            .filter(tab => tab.id !== undefined && !tab.frozen && !tab.discarded)
-            .map(async tab => {
-                const injectScript = injectScriptFactory({
-                    tabId: tab.id!,
-                    frameId,
-                    matchAboutBlank,
-                    runAt,
-                    world,
-                });
-
-                const injectCss = injectCssFactory({
-                    tabId: tab.id!,
-                    frameId,
-                    matchAboutBlank,
-                    runAt,
-                });
-
-                const promises = [];
-
-                if (content.js?.length) {
-                    promises.push(
-                        injectScript
-                            .file(content.js)
-                            .catch(err => console.error(`ExecuteScript error on tab "${tab.title}":`, err))
-                    );
-                }
-
-                if (content.css?.length) {
-                    promises.push(
-                        injectCss
-                            .file(content.css)
-                            .catch(err => console.error(`InsertCSS error on tab "${tab.title}":`, err))
-                    );
-                }
-
-                return Promise.allSettled(promises);
+        const scriptPromises = tabs.filter(isInjectableTab).map(async tab => {
+            const injectScript = injectScriptFactory({
+                tabId: tab.id,
+                frameId,
+                matchAboutBlank,
+                runAt,
+                world,
             });
+
+            const injectCss = injectCssFactory({
+                tabId: tab.id,
+                frameId,
+                matchAboutBlank,
+                runAt,
+            });
+
+            const promises = [];
+
+            if (content.js?.length) {
+                promises.push(
+                    injectScript
+                        .file(content.js)
+                        .catch(err => console.error(`ExecuteScript error on tab "${tab.title}":`, err))
+                );
+            }
+
+            if (content.css?.length) {
+                promises.push(
+                    injectCss
+                        .file(content.css)
+                        .catch(err => console.error(`InsertCSS error on tab "${tab.title}":`, err))
+                );
+            }
+
+            return Promise.allSettled(promises);
+        });
 
         await Promise.allSettled(scriptPromises);
     };
