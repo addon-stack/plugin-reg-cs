@@ -1,6 +1,6 @@
 {
   "name": "@adnbn/plugin-reg-cs",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A plugin for Addon Bone that automatically registers and injects content scripts when your browser extension is installed",
   "keywords": [
     "adnbn",
