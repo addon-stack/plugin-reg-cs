@@ -32,14 +32,14 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@adnbn/inject-css": "^0.2.0",
-    "@adnbn/inject-script": "^0.2.2"
+    "@addon-core/inject-css": "^0.3.0",
+    "@addon-core/inject-script": "^0.3.0"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
-    "adnbn": "^0.2.6"
+    "adnbn": "^0.4.2"
   },
   "peerDependencies": {
-    "adnbn": ">=0.2.3"
+    "adnbn": ">=0.4.0"
   }
 }
