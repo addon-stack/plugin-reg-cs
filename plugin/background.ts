@@ -4,8 +4,8 @@ import {defineBackground} from "adnbn";
 import {containsPermissions, getManifest, onInstalled, onPermissionsAdded, queryTabs} from "adnbn/browser";
 
 type Tab = chrome.tabs.Tab;
-
 type Permissions = chrome.permissions.Permissions;
+type ManifestPermissions = chrome.runtime.ManifestPermissions;
 
 type ManifestContent = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number];
 
@@ -75,27 +75,29 @@ const register = async (): Promise<void> => {
     await Promise.allSettled(contents.map(executeContentScript));
 };
 
+const permissions: ManifestPermissions[] = ["tabs", "scripting"];
+
 export default defineBackground({
-    permissions: ["tabs", "scripting"],
+    permissions,
     main: async () => {
         onInstalled(async details => {
             if (details.reason === "install") {
                 const origins = getContentsScripts()?.flatMap(content => content.matches || []);
 
-                const permissions: Permissions = {
-                    permissions: ["tabs", "scripting"],
-                    origins,
-                };
+                const perm: Permissions = {permissions, origins};
 
-                if (await containsPermissions(permissions)) {
+                if (await containsPermissions(perm)) {
                     await register();
-                } else {
-                    onPermissionsAdded(async () => {
-                        if (await containsPermissions(permissions)) {
-                            await register();
-                        }
-                    });
+
+                    return;
                 }
+
+                const off = onPermissionsAdded(async () => {
+                    if (await containsPermissions(perm)) {
+                        await register();
+                        off();
+                    }
+                });
             }
         });
     },
