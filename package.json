@@ -32,8 +32,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@addon-core/inject-css": "^0.3.0",
-    "@addon-core/inject-script": "^0.3.0"
+    "@addon-core/inject-css": "^0.3.1",
+    "@addon-core/inject-script": "^0.3.1"
   },
   "devDependencies": {
     "prettier": "^3.5.3",

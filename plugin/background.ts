@@ -1,15 +1,21 @@
 import {defineBackground} from "adnbn";
-import {getManifest, onInstalled, queryTabs} from "adnbn/browser";
+import {containsPermissions, getManifest, onInstalled, onPermissionsAdded, queryTabs} from "adnbn/browser";
 
 import injectCssFactory from "@addon-core/inject-css";
 import injectScriptFactory from "@addon-core/inject-script";
+
+type Permissions = chrome.permissions.Permissions
 
 type ContentScript = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number] & {
     world?: chrome.scripting.ExecutionWorld;
 };
 
+const getContentsScripts = (): ContentScript[] | undefined => {
+    return getManifest().content_scripts;
+};
+
 const register = async (): Promise<void> => {
-    const contents = getManifest().content_scripts as ContentScript[] | undefined;
+    const contents = getContentsScripts();
 
     if (!contents?.length) return;
 
@@ -68,7 +74,23 @@ export default defineBackground({
     main: async () => {
         onInstalled(async details => {
             if (details.reason === "install") {
-                await register();
+
+                const origins = getContentsScripts()?.flatMap(content => content.matches || []);
+
+                const permissions: Permissions = {
+                    permissions: ["tabs", "scripting"],
+                    origins,
+                };
+
+                if (await containsPermissions(permissions)) {
+                    await register();
+                } else {
+                    onPermissionsAdded(async () => {
+                        if (await containsPermissions(permissions)) {
+                            await register();
+                        }
+                    });
+                }
             }
         });
     },
