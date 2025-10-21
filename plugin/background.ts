@@ -1,9 +1,11 @@
 import injectCssFactory from "@addon-core/inject-css";
 import injectScriptFactory from "@addon-core/inject-script";
 import {defineBackground} from "adnbn";
-import {getManifest, onInstalled, queryTabs} from "adnbn/browser";
+import {containsPermissions, getManifest, onInstalled, onPermissionsAdded, queryTabs} from "adnbn/browser";
 
 type Tab = chrome.tabs.Tab;
+type Permissions = chrome.permissions.Permissions;
+type ManifestPermissions = chrome.runtime.ManifestPermissions;
 
 type ManifestContent = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number];
 
@@ -12,12 +14,16 @@ type ContentScript = Omit<ManifestContent, "run_at" | "world"> & {
     world?: chrome.scripting.ExecutionWorld;
 };
 
+const getContentsScripts = (): ContentScript[] | undefined => {
+    return getManifest().content_scripts as ContentScript[] | undefined;
+};
+
 const isInjectableTab = (tab: Tab): tab is Tab & {id: number} => {
     return tab.id !== undefined && !tab.frozen && !tab.discarded;
 };
 
 const register = async (): Promise<void> => {
-    const contents = getManifest().content_scripts as ContentScript[] | undefined;
+    const contents = getContentsScripts();
 
     if (!contents?.length) return;
 
@@ -69,12 +75,29 @@ const register = async (): Promise<void> => {
     await Promise.allSettled(contents.map(executeContentScript));
 };
 
+const permissions: ManifestPermissions[] = ["tabs", "scripting"];
+
 export default defineBackground({
-    permissions: ["tabs", "scripting"],
+    permissions,
     main: async () => {
         onInstalled(async details => {
             if (details.reason === "install") {
-                await register();
+                const origins = getContentsScripts()?.flatMap(content => content.matches || []);
+
+                const perm: Permissions = {permissions, origins};
+
+                if (await containsPermissions(perm)) {
+                    await register();
+
+                    return;
+                }
+
+                const off = onPermissionsAdded(async () => {
+                    if (await containsPermissions(perm)) {
+                        await register();
+                        off();
+                    }
+                });
             }
         });
     },

@@ -58,8 +58,8 @@
     "release": "release-it"
   },
   "dependencies": {
-    "@addon-core/inject-css": "^0.3.0",
-    "@addon-core/inject-script": "^0.3.0"
+    "@addon-core/inject-css": "^0.3.1",
+    "@addon-core/inject-script": "^0.3.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
