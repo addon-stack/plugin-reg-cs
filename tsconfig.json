@@ -7,8 +7,26 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist-types",
+    "composite": false,
+    "noEmit": false,
+    "checkJs": false
   },
-  "include": ["**/*"],
-  "exclude": ["**/*.test.ts"]
+  "include": [
+    "./plugin/**/*",
+    "./plugin/**/*.d.ts",
+    "./declaration.d.ts"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "**/tests/**/*.ts",
+    "dist-types",
+    "addon",
+    "node_modules/**/*"
+  ]
 }
