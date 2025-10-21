@@ -1,5 +1,55 @@
 # Changelog
 
+## 🚀 Release `@adnbn/plugin-reg-cs` v0.5.0 (2025-10-21)
+
+
+### ✨ Features
+
+* enhance register content scripts logic with checking permissions ([681cfb3](https://github.com/addon-stack/plugin-reg-cs/commit/681cfb33075d59c5b7ed195d322cb8ef5043384e))
+
+
+
+
+### 📝 Documentation
+
+* update README for improved clarity on plugin behavior and permissions ([2eae875](https://github.com/addon-stack/plugin-reg-cs/commit/2eae8750b27692fec96c037f59b4fe24ebe66401))
+
+  - Clarified content script activation flow and error handling.
+  - Expanded details on required permissions and their usage.
+  - Added additional troubleshooting steps for common issues.
+
+
+
+### 🧩 Other
+
+* format code ([a367ab3](https://github.com/addon-stack/plugin-reg-cs/commit/a367ab37f18d7f2483f731e2c9d9217b4551b8be))
+
+
+
+
+### 🧹 Chores
+
+* **dependencies:** update dependencies and devDependencies in `package-lock.json` ([764f84a](https://github.com/addon-stack/plugin-reg-cs/commit/764f84a98147aac984d3e27c9a3491c70990dce9))
+
+
+
+
+### 🛠️ Refactoring
+
+* **background:** improve permissions handling and event cleanup logic ([a8a7916](https://github.com/addon-stack/plugin-reg-cs/commit/a8a79167926a81ceb92f0d4ae68dea6b527807e1))
+
+  - Extracted `permissions` to a reusable constant for cleaner code.
+  - Refined `onPermissionsAdded` callback to ensure proper cleanup after use.
+  - Updated condition checks to enhance code clarity and maintainability.
+
+
+
+
+### 🙌 Contributors
+
+- [Addon Stack](https://github.com/addon-stack) (@addon-stack) — 5 commits
+- [Rostyslav Nihrutsa](rostyslav.nihrutsa@gmail.com) — 3 commits
+
 ## 🚀 Release `@adnbn/plugin-reg-cs` v0.4.0 (2025-10-17)
 
 
