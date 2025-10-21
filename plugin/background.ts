@@ -5,7 +5,7 @@ import {containsPermissions, getManifest, onInstalled, onPermissionsAdded, query
 
 type Tab = chrome.tabs.Tab;
 
-type Permissions = chrome.permissions.Permissions
+type Permissions = chrome.permissions.Permissions;
 
 type ManifestContent = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number];
 
@@ -15,8 +15,8 @@ type ContentScript = Omit<ManifestContent, "run_at" | "world"> & {
 };
 
 const getContentsScripts = (): ContentScript[] | undefined => {
-    return getManifest().content_scripts;
-}
+    return getManifest().content_scripts as ContentScript[] | undefined;
+};
 
 const isInjectableTab = (tab: Tab): tab is Tab & {id: number} => {
     return tab.id !== undefined && !tab.frozen && !tab.discarded;
@@ -80,7 +80,6 @@ export default defineBackground({
     main: async () => {
         onInstalled(async details => {
             if (details.reason === "install") {
-
                 const origins = getContentsScripts()?.flatMap(content => content.matches || []);
 
                 const permissions: Permissions = {
