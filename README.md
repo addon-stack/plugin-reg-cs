@@ -5,32 +5,42 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![CI](https://github.com/addon-stack/plugin-reg-cs/actions/workflows/ci.yml/badge.svg)](https://github.com/addon-stack/plugin-reg-cs/actions/workflows/ci.yml)
 
-A plugin for [Addon Bone](https://addonbone.com) that automatically registers and injects content scripts when your browser extension is installed.
+A plugin for [Addon Bone](https://addonbone.com) that automatically registers and injects content scripts on first install, as soon as the required permissions are granted.
 
 ## Key Features
 
-- **Immediate Content Script Activation**: Automatically injects your content scripts into existing tabs that match your URL patterns when the extension is first installed
-- **Full Support for Content Script Options**: Works with all manifest content script properties including `run_at`, `all_frames`, `match_about_blank`, and execution world
-- **Error Handling**: Gracefully handles injection failures with detailed error logging
+- **Immediate Content Script Activation**: Injects your content scripts into already open tabs that match your URL patterns right after installation (no manual refresh needed)
+- **Respects Permissions Flow**: Waits for required API and host permissions; injects immediately when they are available (either granted at install or later)
+- **Full Support for Content Script Options**: Works with manifest content script properties including `run_at`, `all_frames`, `match_about_blank`, and execution world
+- **Error Handling**: Uses best‑effort injection with detailed error logging without blocking other tabs/files
 - **Zero Configuration**: Works out of the box with your existing manifest content script definitions
 
 ## How It Works
 
-When your extension is installed, this plugin:
+On the extension’s initial install (not on updates), the plugin:
 
-1. Reads the `content_scripts` section from your extension's manifest
-2. Finds all open tabs that match the URL patterns defined in your content scripts
-3. Injects the specified JavaScript and CSS files into those tabs
-4. This ensures users can immediately see and use your extension without needing to refresh their tabs
+1. Reads your manifest’s `content_scripts` and collects URL patterns from each script’s `matches`.
+2. Treats those URL patterns as required host permissions, alongside the API permissions `tabs` and `scripting`.
+3. Checks whether these permissions are already granted:
+   - If yes, it immediately injects the specified JS and CSS files into all currently open tabs that match.
+   - If not, it subscribes to permission changes and automatically injects once the browser/user grants them (no reload required). The listener is removed after injection.
+4. Injection behavior:
+   - Skips tabs that are frozen or discarded and only injects into tabs with a valid ID.
+   - JavaScript is injected with support for `run_at`, `match_about_blank`, `all_frames`, and execution `world`.
+   - CSS is injected with support for `run_at` and `match_about_blank`.
+   - Errors for individual files/tabs are logged but do not stop other injections (best‑effort via Promise.allSettled).
+
+Note: This automatic registration runs only on the first install event. It doesn’t re‑run on extension updates.
 
 ## Required Permissions
 
-This plugin requires the following permissions in your manifest:
+This plugin relies on the following permissions:
 
 - **`tabs`**: Needed to query and access tab information for content script injection
 - **`scripting`**: Required to inject scripts and CSS into web pages
+- **Host permissions for your `matches`**: The same URL patterns you use in `content_scripts.matches`
 
-These permissions are automatically requested by the plugin and are essential for its functionality.
+The plugin declares and checks these permissions and injects as soon as the browser grants them. It does not actively call `chrome.permissions.request`; ensure your manifest and/or your own UI flow prompts the user to grant the needed host permissions.
 
 ## Installation
 
@@ -68,9 +78,11 @@ export default defineConfig({
 });
 ```
 
-
 ## Troubleshooting
 
 If your content scripts aren't being injected:
 
-- Make sure you have included the necessary URL patterns in `host_permissions` in your manifest, otherwise the API won't have access to those tabs
+- Ensure the necessary URL patterns are present in `host_permissions` (or are otherwise granted by the user); without host permissions the API can’t access those tabs
+- Remember: injection is triggered only on the initial install. To re‑test, remove the extension and install it again
+- Some pages (e.g., Chrome Web Store, browser internal pages) are restricted and cannot be scripted
+- If a tab is discarded/frozen, wake it (focus or reload) and try again
