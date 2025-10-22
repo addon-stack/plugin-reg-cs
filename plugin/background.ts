@@ -5,7 +5,6 @@ import {containsPermissions, getManifest, onInstalled, onPermissionsAdded, query
 
 type Tab = chrome.tabs.Tab;
 type Permissions = chrome.permissions.Permissions;
-type ManifestPermissions = chrome.runtime.ManifestPermissions;
 
 type ManifestContent = NonNullable<chrome.runtime.Manifest["content_scripts"]>[number];
 
@@ -54,7 +53,7 @@ const register = async (): Promise<void> => {
                 promises.push(
                     injectScript
                         .file(content.js)
-                        .catch(err => console.error(`ExecuteScript error on tab "${tab.title}":`, err))
+                        .catch(err => console.error(`ExecuteScript error on tab "${tab.title}":`, err)),
                 );
             }
 
@@ -62,7 +61,7 @@ const register = async (): Promise<void> => {
                 promises.push(
                     injectCss
                         .file(content.css)
-                        .catch(err => console.error(`InsertCSS error on tab "${tab.title}":`, err))
+                        .catch(err => console.error(`InsertCSS error on tab "${tab.title}":`, err)),
                 );
             }
 
@@ -75,11 +74,9 @@ const register = async (): Promise<void> => {
     await Promise.allSettled(contents.map(executeContentScript));
 };
 
-const permissions: ManifestPermissions[] = ["tabs", "scripting"];
-
 export default defineBackground({
-    permissions,
-    main: async () => {
+    permissions: ["tabs", "scripting"],
+    main: async ({permissions}) => {
         onInstalled(async details => {
             if (details.reason === "install") {
                 const origins = getContentsScripts()?.flatMap(content => content.matches || []);
