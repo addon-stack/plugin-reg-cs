@@ -53,7 +53,7 @@ const register = async (): Promise<void> => {
                 promises.push(
                     injectScript
                         .file(content.js)
-                        .catch(err => console.error(`ExecuteScript error on tab "${tab.title}":`, err)),
+                        .catch(err => console.error(`ExecuteScript error on tab "${tab.title}":`, err))
                 );
             }
 
@@ -61,7 +61,7 @@ const register = async (): Promise<void> => {
                 promises.push(
                     injectCss
                         .file(content.css)
-                        .catch(err => console.error(`InsertCSS error on tab "${tab.title}":`, err)),
+                        .catch(err => console.error(`InsertCSS error on tab "${tab.title}":`, err))
                 );
             }
 
