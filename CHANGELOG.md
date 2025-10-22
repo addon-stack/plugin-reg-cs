@@ -1,5 +1,23 @@
 # Changelog
 
+## 🚀 Release `@adnbn/plugin-reg-cs` v0.5.1 (2025-10-22)
+
+
+### 🛠️ Refactoring
+
+* **background:** remove trailing commas in error logging functions ([4c85ce9](https://github.com/addon-stack/plugin-reg-cs/commit/4c85ce9f507ecf3c9587d55db70cfff4427e1c3a))
+
+
+* **background:** streamline permission handling and improve error logging ([b5e8f31](https://github.com/addon-stack/plugin-reg-cs/commit/b5e8f318d6a5a191e15fc516f5c50011084431fb))
+
+
+
+
+
+### 🙌 Contributors
+
+- [Addon Stack](https://github.com/addon-stack) (@addon-stack) — 3 commits
+
 ## 🚀 Release `@adnbn/plugin-reg-cs` v0.5.0 (2025-10-21)
 
 
