@@ -1,5 +1,14 @@
 # @adnbn/plugin-reg-cs
 
+> [!IMPORTANT]
+> **This project has moved**
+>
+> Development and maintenance continue in the [Addon Bone Plugins monorepo](https://github.com/addon-stack/addon-bone-plugins).
+>
+> See [Register Content Scripts](https://github.com/addon-stack/addon-bone-plugins/tree/main/packages/%40adnbn/plugin-reg-cs) for the latest source code, documentation, and releases.
+>
+> This repository is archived and read-only. Please submit issues and pull requests to the monorepo. The npm package name remains `@adnbn/plugin-reg-cs`.
+
 [![npm version](https://img.shields.io/npm/v/@adnbn/plugin-reg-cs.svg?logo=npm)](https://www.npmjs.com/package/@adnbn/plugin-reg-cs)
 [![npm downloads](https://img.shields.io/npm/dm/@adnbn/plugin-reg-cs.svg)](https://www.npmjs.com/package/@adnbn/plugin-reg-cs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
